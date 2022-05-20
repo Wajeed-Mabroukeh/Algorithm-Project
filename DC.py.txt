@@ -1,0 +1,34 @@
+import math
+"""
+Name: Wajeed Mabroukeh
+Part 1: Divide and conquer
+"""
+
+positions = []
+N = 0
+    
+class position(object):
+    def __init__(self, x: float, y: float, e: float):
+        self.x = x
+        self.y = y
+        self.e = e
+
+
+def cal_distance(position_1: position, position_2: position):
+    return math.sqrt((position_2.y - position_1.y) ** 2 + (position_2.x - position_1.x) ** 2)
+
+def cal_max_energy(dist, src):
+    if(dist == src):
+        return positions[dist].e
+    return max( positions[dist].e + cal_max_energy(i, src) - cal_distance(positions[dist], positions[i]) for i in range(src, dist))
+    
+
+if __name__ == "__main__":
+    N = int(input())
+    positions = []
+
+    for i in range(N):
+        x, y, e = input().rstrip().split(' ')[:3]
+        positions.append(position(float(x), float(y), float(e)))
+
+    print(format(cal_max_energy(N-1, 0), '.4f'))

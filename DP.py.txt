@@ -1,0 +1,36 @@
+import math
+"""
+Name: Wajeed Mabroukeh
+Part 2: Dynamic programming
+"""
+
+
+class position(object):
+    def __init__(self, x: float, y: float, e: float):
+        self.x = x
+        self.y = y
+        self.e = e
+
+
+def cal_distance(position_1: position, position_2: position):
+    return math.sqrt((position_2.y - position_1.y) ** 2 + (position_2.x - position_1.x) ** 2)
+
+
+if __name__ == "__main__":
+    N = int(input())
+    martix = [[0] * N for _ in range(N)]
+    positions = []
+    max_values = [float('-inf') for _ in range(N)]
+
+    for i in range(N):
+        x, y, e = input().rstrip().split(' ')[:3]
+        positions.append(position(float(x), float(y), float(e)))
+
+    max_values[0] = positions[0].e
+
+    for i in range(0, N):
+        for j in range(i):
+            martix[i][j] = positions[i].e + max_values[j] - cal_distance(positions[j], positions[i])
+            max_values[i] = max(martix[i][j], max_values[i])
+
+    print(format(max_values[N - 1], '.4f'))
